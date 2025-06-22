@@ -1,0 +1,23 @@
+﻿@model List<Client1.Models.Product>
+
+      <h1> Products</h1>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>In Stock</th>
+            <th>Price</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Model)
+        {
+            <tr>
+                <td>@product.Id</td>
+                <td>@product.Name</td>
+                <td>@product.InStock</td>
+                <td>@product.Price.ToString("C")</td>
+            </tr>
+        }
+    </tbody>

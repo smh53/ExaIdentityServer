@@ -1,0 +1,58 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+@using Microsoft.AspNetCore.Authentication;
+
+<a class="btn btn-success" asp-action="LogOut"> Log out</a>
+<a class="btn btn-success" asp-action="RefreshToken"> Refresh token yenile</a>
+<h1>User only page </h1>
+
+<h4>Claims</h4>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Claim Type</th>
+            <th>Claim Value</th>
+            <th>Claim Subject</th>
+            <th>Claim Issuer</th>
+            <th>Claim OriginalIssuer</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var claim in User.Claims)
+        {
+            <tr>
+                <td>@claim.Type</td>
+                <td>@claim.Value</td>
+                <td>@claim.Subject</td>
+                <td>@claim.Issuer</td>
+                <td>@claim.OriginalIssuer</td>
+
+
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Auth Property Key</th>
+            <th>Auth Value</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in (await Context.AuthenticateAsync()).Properties.Items)  //httpcontext
+        {
+            <tr>
+                <td>@item.Key</td>
+                <td>@item.Value</td>
+                </tr>
+        }
+       
+    </tbody>
+</table>
