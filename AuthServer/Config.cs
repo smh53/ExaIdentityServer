@@ -8,9 +8,9 @@ namespace AuthServer
 {
     public static class Config
     {
-        //Identity Servera Apileri tanıtıyorum
-        //Apilerin hangi izinleri olduğunu tanıtıyorum
-        //Apilerin hangi clientlara izin vereceğini tanıtıyorum
+        //Identity Servera Apileri tanıtma
+        //Apilerin hangi izinleri olduğunu tanıtma
+        //Apilerin hangi clientlara izin vereceğini tanıtma
         public static IEnumerable<ApiResource> GetApiResources()
         {
             return new List<ApiResource>
@@ -73,7 +73,6 @@ namespace AuthServer
                     ClientSecrets = { new Secret("password1".Sha256()) },
                     AllowedScopes = { "api1.read"}, //eğer örneğin resource_api2 için herhangi bir izni yoksa, tokenda aud içinde resource_api2 görünmez (otomatik oluyor bu)
                 },
-
                 new Client()
                 {
                     ClientId = "client2",
@@ -82,8 +81,6 @@ namespace AuthServer
                     ClientSecrets = { new Secret("password2".Sha256()) },
                     AllowedScopes = { "api1.read","api2.write","api2.update",}, // ekstra scope bazlı yetkilendirme yapmazsan 2 apideki endpointleri de çalıştırabilir
                 },
-
-
                 new Client()
                 {
                     ClientId = "Client1-Mvc",
@@ -99,10 +96,9 @@ namespace AuthServer
                     AbsoluteRefreshTokenLifetime = 2592000, // 30 days
                     RefreshTokenExpiration = TokenExpiration.Absolute, // gunu geldiginde omru dolar. sliding= gunu gelmeden kullanırsan omru uzar 
                     PostLogoutRedirectUris = { "https://localhost:7002/signout-callback-oidc" },
-                    RequireConsent = true
+                    RequireConsent = false
                 },
-
-                  new Client()
+                new Client()
                 {
                     ClientId = "Client2-Mvc",
                     RequirePkce = false, // PKCE kullanmıyoruz çünkü client credentials flow kullanıyoruz. PKCE sadece authorization code flow için gerekli
@@ -117,7 +113,20 @@ namespace AuthServer
                     AbsoluteRefreshTokenLifetime = 2592000, // 30 days
                     RefreshTokenExpiration = TokenExpiration.Absolute, // gunu geldiginde omru dolar. sliding= gunu gelmeden kullanırsan omru uzar 
                     PostLogoutRedirectUris = { "https://localhost:7039/signout-callback-oidc" },
-                    RequireConsent = false
+                    RequireConsent = true
+                },
+                new Client()
+                {
+                    ClientId = "angular-client",
+                    RequireClientSecret = false, // mobil veya web clientta secret çalınabilir
+                    ClientName = "Angular Client Uygulaması",
+                    AllowedGrantTypes = GrantTypes.Code,
+                    AllowedScopes = {IdentityServerConstants.StandardScopes.OpenId,IdentityServerConstants.StandardScopes.OfflineAccess,IdentityServerConstants.StandardScopes.Profile, "api1.read"},
+                    RedirectUris = { "http://localhost:4200/callback", "https://localhost:4200/callback" },
+                    AllowedCorsOrigins = { "http://localhost:4200", "https://localhost:4200" }, // Angular uygulamasının CORS izinleri
+                    PostLogoutRedirectUris = { "http://localhost:4200", "https://localhost:4200" }, // Logout sonrası yönlendirme
+                    AllowOfflineAccess = true
+
                 }
 
             };
