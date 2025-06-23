@@ -5,6 +5,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddHttpContextAccessor(); // HttpContext'i inject edebilmek icin
+builder.Services.AddHttpClient(); // HttpContext'i inject edebilmek icin
 builder.Services.AddScoped<IApiResourceHttpClient,ApiResourceHttpClient>(); 
 builder.Services.AddAuthentication(opts =>
 {
@@ -28,6 +29,7 @@ builder.Services.AddAuthentication(opts =>
     opts.Scope.Add("api1.read"); // izin verilen scope'lar
     opts.Scope.Add("offline_access"); // Refresh token
     opts.Scope.Add("Role");
+    opts.Scope.Add("email");
 
     opts.Scope.Add("CountryAndCity"); //custom scope
 
@@ -37,7 +39,7 @@ builder.Services.AddAuthentication(opts =>
 
     opts.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
     {
-       
+       NameClaimType = "name", // controllerda falan User.Identity.Name ile alabilmek icin mapledik. Ama User.Claims.FirstOrDefault(x => x.Type == "name") ile de alinabilir orda
         RoleClaimType = "role" // authorize attribute ile rol yetkilendirmesinde kullanmak icin maplenen role claimactionunu verdik
     };
 });

@@ -7,10 +7,10 @@ namespace Client1.Services
 {
     public class ApiResourceHttpClient : IApiResourceHttpClient
     {
-        private readonly HttpContextAccessor _httpContextAccessor;
+        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly HttpClient _client;
 
-        public ApiResourceHttpClient(HttpContextAccessor httpContextAccessor, HttpClient client)
+        public ApiResourceHttpClient(IHttpContextAccessor httpContextAccessor, HttpClient client)
         {
             _httpContextAccessor = httpContextAccessor;
             _client = client;

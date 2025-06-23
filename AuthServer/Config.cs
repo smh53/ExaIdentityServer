@@ -82,6 +82,8 @@ namespace AuthServer
                     ClientSecrets = { new Secret("password2".Sha256()) },
                     AllowedScopes = { "api1.read","api2.write","api2.update",}, // ekstra scope bazlı yetkilendirme yapmazsan 2 apideki endpointleri de çalıştırabilir
                 },
+
+
                 new Client()
                 {
                     ClientId = "Client1-Mvc",
@@ -90,7 +92,7 @@ namespace AuthServer
                     AllowedGrantTypes = GrantTypes.Hybrid, // code + credentials kullandigimiz icin hibrit
                     ClientSecrets = { new Secret("password1".Sha256()) },
                     RedirectUris = { "https://localhost:7002/signin-oidc" }, //clientlara kurulan openid paketi ile bu url olusuyor
-                    AllowedScopes = {IdentityServerConstants.StandardScopes.OpenId,IdentityServerConstants.StandardScopes.OfflineAccess,IdentityServerConstants.StandardScopes.Profile, "api1.read", "CountryAndCity","Role"}, // İzin verilen scope'lar. openid, id yi verir. profile, user ile ilgili bilgileri verir (family_name vs)
+                    AllowedScopes = {IdentityServerConstants.StandardScopes.OpenId,IdentityServerConstants.StandardScopes.OfflineAccess,IdentityServerConstants.StandardScopes.Profile, "api1.read", "CountryAndCity","Role", IdentityServerConstants.StandardScopes.Email}, // İzin verilen scope'lar. openid, id yi verir. profile, user ile ilgili bilgileri verir (family_name vs)
                     AllowOfflineAccess = true, // Refresh token 
                     AccessTokenLifetime = 3600, // refresh token lifetime
                     RefreshTokenUsage = TokenUsage.ReUse,
@@ -125,6 +127,7 @@ namespace AuthServer
         {
             return new List<IdentityResource>
             {
+                new IdentityResources.Email(),
                 new IdentityResources.OpenId(), // OpenID Connect protokolü için gerekli olan kimlik doğrulama bilgilerini sağlar (örn ID)
                 new IdentityResources.Profile(), // Kullanıcı profili bilgilerini sağlar (örn ad, soyad, doğum tarihi)
                 new IdentityResource()
