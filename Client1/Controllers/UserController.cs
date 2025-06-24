@@ -38,8 +38,8 @@ namespace Client1.Controllers
             var refreshToken = await HttpContext.GetTokenAsync(OpenIdConnectParameterNames.RefreshToken);
             HttpClient client = new HttpClient();
             RefreshTokenRequest refreshTokenRequest = new RefreshTokenRequest();
-            refreshTokenRequest.ClientId = _configuration["Client:ClientId"];
-            refreshTokenRequest.ClientSecret = _configuration["Client:ClientSecret"];
+            refreshTokenRequest.ClientId = _configuration["ClientResourceOwner:ClientId"];
+            refreshTokenRequest.ClientSecret = _configuration["ClientResourceOwner:ClientSecret"];
             refreshTokenRequest.RefreshToken = refreshToken;
             refreshTokenRequest.Address = $"{_configuration["IdentityServer:Authority"]}/connect/token";
             var token =  await client.RequestRefreshTokenAsync(refreshTokenRequest);
