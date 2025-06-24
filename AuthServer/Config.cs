@@ -127,7 +127,22 @@ namespace AuthServer
                     PostLogoutRedirectUris = { "http://localhost:4200", "https://localhost:4200" }, // Logout sonrası yönlendirme
                     AllowOfflineAccess = true
 
-                }
+                },
+                  new Client()
+                {
+                    ClientId = "Client1-ResourceOwner-Mvc",
+                    ClientName = "Client1 ResourceOwner Mvc Uygulaması",
+                    AllowedGrantTypes = GrantTypes.ResourceOwnerPassword, // clientlar kendi login olurken kullanılan auth flow. Merkezi login yok, her client kendi login oluyor
+                    ClientSecrets = { new Secret("password-ro".Sha256()) },
+                    AllowedScopes = {IdentityServerConstants.StandardScopes.OpenId,IdentityServerConstants.StandardScopes.OfflineAccess,IdentityServerConstants.StandardScopes.Profile, "api1.read", "CountryAndCity","Role", IdentityServerConstants.StandardScopes.Email}, // İzin verilen scope'lar. openid, id yi verir. profile, user ile ilgili bilgileri verir (family_name vs)
+                    AllowOfflineAccess = true, // Refresh token 
+                    AccessTokenLifetime = 3600, // refresh token lifetime
+                    RefreshTokenUsage = TokenUsage.ReUse,
+                    AbsoluteRefreshTokenLifetime = 2592000, // 30 days
+                    RefreshTokenExpiration = TokenExpiration.Absolute, // gunu geldiginde omru dolar. sliding= gunu gelmeden kullanırsan omru uzar 
+                
+                  
+                },
 
             };
         }

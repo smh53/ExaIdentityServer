@@ -17,6 +17,8 @@ builder.Services.AddIdentityServer()
     .AddInMemoryIdentityResources(Config.GetIdentityResources())
   //  .AddTestUsers(Config.GetUsers().ToList())
   .AddProfileService<CustomProfileService>() // Custom profile service for user claims
+
+  .AddResourceOwnerValidator<ResourceOwnerPasswordValidator>() // Custom resource owner password validator
     .AddDeveloperSigningCredential(); // For development purposes only, use a real certificate in production
 
 builder.Services.AddRazorPages(); // quickstart ui uses razor pages, without this, pages will not be found

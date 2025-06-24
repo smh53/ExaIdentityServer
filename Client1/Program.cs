@@ -10,9 +10,10 @@ builder.Services.AddScoped<IApiResourceHttpClient,ApiResourceHttpClient>();
 builder.Services.AddAuthentication(opts =>
 {
     opts.DefaultScheme = "Cookies"; // 2 farkli uyelik sistemi( müsteri veya personel vs) varsa diye semalar kullanilir
-    opts.DefaultChallengeScheme = "oidc";
+   // opts.DefaultChallengeScheme = "oidc"; identity serverdan login ettiriyosak 
 }).AddCookie("Cookies", opts =>
 {
+    opts.LoginPath = "/Login/Index"; // resourceowner flowunda yaptigimiz logine yonlendirme
     opts.AccessDeniedPath = "/Home/AccessDenied"; 
 })
 
